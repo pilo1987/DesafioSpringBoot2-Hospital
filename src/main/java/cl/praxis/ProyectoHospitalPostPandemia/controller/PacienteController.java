@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/pacientes")
 public class PacienteController {
     private static final Logger logger = LoggerFactory.getLogger(ProyectoHospitalPostPandemiaApplication.class);
-    PacienteService service;
+    private final PacienteService service;
 
     public PacienteController(PacienteService service) {
         this.service = service;
@@ -21,27 +21,27 @@ public class PacienteController {
 
     @GetMapping()
     public String findAll(Model model) {
-        logger.warn("Ejacutando findAll()");
+        logger.info("Ejecutando findAll() - Listando todos los pacientes");
         model.addAttribute("pacientes", service.findAll());
         return "pacienteList";
     }
 
     @GetMapping("/new")
     public String newPaciente(){
-        logger.info("Ejecutando newPaciente de PacienteController");
+        logger.info("Ejecutando newPaciente() - Preparando formulario para nuevo paciente");
         return "newpaciente";
     }
 
     @PostMapping("/new")
     public String createPaciente(@ModelAttribute Paciente paciente){
-        logger.info("Ejecutando createPaciente de PacienteController");
+        logger.info("Ejecutando createPaciente() - Creando nuevo paciente con ID: {}", paciente.getId());
         boolean result = service.create(paciente);
         return "redirect:/pacientes";
     }
 
     @GetMapping("/del/{id}")
     public String delete(@PathVariable("id") int id){
-        logger.info("Ejecutando delete de PatientController");
+        logger.info("Ejecutando delete() - Eliminando paciente con ID: {}", id);
         boolean result = service.delete(id);
 
         if (result){
@@ -54,20 +54,21 @@ public class PacienteController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") int id,Model model){
+        logger.info("Ejecutando edit() - Preparando formulario para editar paciente con ID: {}", id);
         model.addAttribute("paciente", service.findOne(id));
         return "editarpaciente";
     }
 
     @PostMapping
     public String update(@ModelAttribute Paciente paciente){
-        logger.info("Ejecutando update de PatientController");
+        logger.info("Ejecutando update() - Actualizando paciente con ID: {}", paciente.getId());
         boolean result = service.update(paciente);
         return "redirect:/pacientes";
     }
 
     @GetMapping("/{id}")
     public String findOne(@PathVariable("id") int id, Model model){
-        logger.info("Ejecutando findOne de PacienteController");
+        logger.info("Ejecutando findOne() - Consultando paciente con ID: {}", id);
         model.addAttribute("paciente", service.findOne(id));
         return "detallepaciente";
     }

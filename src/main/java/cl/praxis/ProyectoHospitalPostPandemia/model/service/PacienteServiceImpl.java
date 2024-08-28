@@ -24,7 +24,8 @@ public class PacienteServiceImpl implements PacienteService {
         pacienteList.add(new Paciente(1, "Pedro Augusto", "Hevia Elgueta", "Isabre Consalud"));
         pacienteList.add(new Paciente(2, "Ana María", "González Pérez", "Isapre Colmena"));
         pacienteList.add(new Paciente(3, "Francisca Soledad", "Sarabia Colorado", "Isapre Cruz Blanca"));
-
+        pacienteList.add(new Paciente(4, "Carlos Eduardo", "Maldonado Rivas", "Isapre Vida Tres"));
+        pacienteList.add(new Paciente(5, "María José", "Fernández García", "Isapre Banmedica"));
     }
 
     public PacienteServiceImpl(List<Paciente> pacienteList) {
@@ -33,13 +34,13 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public List<Paciente> findAll() {
-        logger.warn("Ejecutando findAll de PatientServiceImpl");
+        logger.info("Ejecutando findAll de PacienteServiceImpl - Listando todos los pacientes");
         return pacienteList;
     }
 
     @Override
     public Paciente findOne(int id) {
-        logger.warn("Ejecutando findOne de PacienteServiceImpl");
+        logger.info("Ejecutando findOne de PacienteServiceImpl - Buscando paciente con ID: {}", id);
         return pacienteList.stream()
                 .filter(paciente -> paciente.getId() == id)
                 .findFirst()
@@ -50,6 +51,7 @@ public class PacienteServiceImpl implements PacienteService {
     public boolean create(Paciente paciente) {
         paciente.setId(newId());
         pacienteList.add(paciente);
+        logger.info("Creando paciente con ID: {}", paciente.getId());
         return true;
     }
 
@@ -63,7 +65,7 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public boolean update(Paciente p) {
-        logger.warn("Ejecutando update de PatientServiceImpl");
+        logger.info("Ejecutando update de PacienteServiceImpl - Actualizando paciente con ID: {}", p.getId());
         Paciente paciente = findOne(p.getId());
         paciente.setNombre(p.getNombre());
         paciente.setApellido(p.getApellido());
@@ -73,7 +75,7 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public boolean delete(int id) {
-        logger.warn("Ejecutando delete de PacienteServiceImpl");
+        logger.info("Ejecutando delete de PacienteServiceImpl - Eliminando paciente con ID: {}", id);
         Paciente paciente = findOne(id);
         if (paciente != null) {
             pacienteList.remove(paciente);
